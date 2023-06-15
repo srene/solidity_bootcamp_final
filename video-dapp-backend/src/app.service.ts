@@ -28,11 +28,10 @@ export class AppService {
   }
 
   async getVideoList() {
-    const videoCount=4;
-    console.log(videoCount);
+
 
     let index=0;
-    let response="{";
+    let response='{"nfts":[';
     while(true){
       try{
         const list = await this.contract.listings(index);
@@ -40,14 +39,19 @@ export class AppService {
         index++;
         let url = `https://${list.uri}.ipfs.w3s.link/metadata.json`;
         let settings = { method: "Get" };
-        response+='"'+list.uri+'":';
+        //response+='"'+list.uri+'":';
         const res = await fetch(url, settings);
         const json = await res.json();
-        response+=JSON.stringify(json)+",";           
+        if(json.title !== undefined){
+          const res = JSON.stringify(json);
+          const res2 = res.slice(0,-1);
+          console.log(res2)
+          response+=res2+',"uri":"'+list.uri+'"},'; 
+        }          
               // do something with JSON
       } catch(err){
         response = response.slice(0, -1) //'abcde'
-        response+="}";
+        response+="]}";
         //console.log("no more videos");
         console.log(response)
         break;

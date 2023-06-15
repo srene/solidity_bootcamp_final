@@ -1,22 +1,33 @@
 import { useSigner } from 'wagmi';
 import { useState, useEffect } from 'react';
 
+
+
 export function VideosList(){
+	const [loading, setLoading] = useState(true);
+	const [txdata, setTxData] = useState(null);
+	
+	if(loading){
+		requestVideos(setLoading,setTxData);
 
-    const [data, setTxData] = useState(null);
-	console.log("reloading")
-	if(!data){
-		requestVideos(setTxData);
-
-	return (
-	<>
-	<p></p>
-	<h1>
-	Videos
-	</h1>
-	<p>Loading Videos...</p>
-	</>
-	)
+		return (
+			<>
+			<p></p>
+			<h1>
+			Videos
+			</h1>
+			<p>Loading Videos...</p>
+			</>
+		)
+	}
+	if(txdata){
+		for (let item in txdata) {
+			for(let it in txdata[item]){
+				const resp = txdata[item][it];
+				//console.log(txdata[item][it]);
+				console.log(resp.title);
+			}
+		}
 	}
 	return (
 		<>
@@ -24,23 +35,27 @@ export function VideosList(){
 		<h1>
 		Videos
 		</h1>
-		<p>Not loading</p>
 		</>
 		)
 	
 }
 
-function requestVideos(setTxData){
-	console.log("executing")
+
+function requestVideos(setLoading,setTxData){
+	console.log("requesting videos");
 	const requestOptions = {
 		method: 'GET',
 		headers: { 'Content-type': 'application/json'}
 	};
-	console.log(requestOptions)
 	fetch('http://localhost:3001/get-video-list', requestOptions)
 		.then(response => response.json())
 		.then((data) => {
-			console.log(JSON.stringify(data));
 			setTxData(data);
+			setLoading(false);
 	});
+
+  }
+
+function Table({tbodyData}) {
+	console.log({tbodyData});
   }
