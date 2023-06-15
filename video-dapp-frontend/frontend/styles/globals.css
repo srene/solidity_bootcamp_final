@@ -36,7 +36,15 @@ a {
 	html {
 	}
 }
+.div-1 {margin-bottom: 20px;
+height: 40px;
+float: left;
+width: 100%;
+}
+.div-2 {margin-bottom: 20px;
+	height: 10px;
+	float: left;
+	width: 100%;
+	}
+	
 
-table, th, td {
-	border: 1px solid;
-  }
